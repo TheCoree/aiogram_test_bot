@@ -55,7 +55,7 @@ async def show_first_item(callback: CallbackQuery, state: FSMContext):
             message_id=callback.message.message_id,
             media=InputMediaPhoto(
                 media=item.image_url,
-                caption=f"<b>{item.name}</b>\n\n{item.description}\n\nЦена: {item.price}TON",
+                caption=f"<b>{item.name}</b>\n\n{item.description}\n\nЦена: {item.price} TON",
                 parse_mode="HTML"
             ),
             reply_markup=await kb.item_navigation(category_id, 0, len(items))

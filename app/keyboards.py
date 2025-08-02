@@ -15,14 +15,18 @@ async def categories():
     keyboard.add(InlineKeyboardButton(text='На Главную', callback_data='to_main'))
     return keyboard.adjust(2).as_markup()
 
-async def item_navigation(category_id: int, index: int, total: int):
+async def item_navigation(category_id: int, index: int, total: int) -> InlineKeyboardMarkup:
     kb = InlineKeyboardBuilder()
-    
+
+    nav_buttons = []
     if index > 0:
-        kb.add(InlineKeyboardButton(text="◀ Назад", callback_data=f"item_{category_id}_{index - 1}"))
+        nav_buttons.append(InlineKeyboardButton(text="◀ Назад", callback_data=f"item_{category_id}_{index - 1}"))
     if index < total - 1:
-        kb.add(InlineKeyboardButton(text="Вперёд ▶", callback_data=f"item_{category_id}_{index + 1}"))
-    
-    kb.add(InlineKeyboardButton(text="На главную", callback_data="to_main"))
-    
-    return kb.adjust(2).as_markup() 
+        nav_buttons.append(InlineKeyboardButton(text="Вперёд ▶", callback_data=f"item_{category_id}_{index + 1}"))
+
+    if nav_buttons:
+        kb.row(*nav_buttons)
+
+    kb.row(InlineKeyboardButton(text="На главную", callback_data="to_main"))
+
+    return kb.as_markup()
